@@ -14,6 +14,10 @@ const playerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  picture: {
+    type: String,
+    default: "N/A",
+  },
 });
 
 module.exports = mongoose.model("Player", playerSchema);
