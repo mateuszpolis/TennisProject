@@ -1,1 +1,15 @@
-All players
+<h2>Search players</h2>
+<form action="/players" method="GET">
+  <label for="name">Name</label>
+  <input type="text" name="name" value="<%= searchOptions.name%>" />
+  <label for="country">Country</label>
+  <input type="text" name="country" value="<%= searchOptions.country%>" />
+  <input type="submit" value="Search" />
+</form>
+<br />
+<% players.forEach(player => { %>
+<div>
+  <%= player.name %> <%= player.birthdate.toISOString().slice(0, 10) %> <%=
+  player.country %>
+</div>
+<% }) %>
