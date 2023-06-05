@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     searchOptions.location = new RegExp(req.query.location, "i");
   }
   if (req.query.tournamentRank != null && req.query.tournamentRank !== "") {
-    searchOptions.tournamentRank = new RegExp(req.query.tournamentRank, "i");
+    searchOptions.tournamentRank = req.query.tournamentRank;
   }
   try {
     const tournaments = await Tournament.find(searchOptions);

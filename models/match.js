@@ -29,9 +29,9 @@ const matchSchema = new mongoose.Schema({
     required: true,
   },
   tournament: {
-    // change this in the future to a tournament object
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: "Tournament",
   },
   biorythmPhysical1: {
     type: Number,

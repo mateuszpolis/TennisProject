@@ -5,14 +5,21 @@
   <label for="location">Location</label>
   <input type="text" name="location" value="<%= searchOptions.location%>" />
   <label for="tournamentRank">Tournament Rank</label>
-  <input type="number" min="125" max="2000" step="5" value="<%= searchOptions.tournamentRank %>"/>
+  <input
+    type="number"
+    name="tournamentRank"
+    min="125"
+    max="2000"
+    step="5"
+    value="<%= searchOptions.tournamentRank %>"
+  />
   <input type="submit" value="Search" />
 </form>
 <br />
 <% tournaments.forEach(tournament => { %>
 <div>
-  <%= tournament.name %>
-  <%= tournament.location %>
+  <%= tournament.name %> 
+  <%= tournament.location %> 
   <%= tournament.tournamentRank %>
 </div>
 <% }) %>

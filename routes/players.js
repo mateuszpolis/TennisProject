@@ -1,6 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const Player = require("../models/player");
+const uploadPath = path.join("public", Player.pictureBasePath);
+const upload = multer({
+  dest: uploadPath,
+  fileFilter: (req, file, callback) => {
+    callback(
+      null,
+      ["image/png", "image/jpg", "image/jpeg"].includes(file.mimetype)
+    );
+  },
+});
 
 // All Players Route
 router.get("/", async (req, res) => {
@@ -17,7 +30,6 @@ router.get("/", async (req, res) => {
   } catch {
     res.redirect("/");
   }
-  res.render("players/index");
 });
 
 // New Player Route
@@ -26,17 +38,22 @@ router.get("/new", (req, res) => {
 });
 
 // Create Player Route
-router.post("/", async (req, res) => {
+router.post("/", upload.single("picture"), async (req, res) => {
+  req.file != null ? (req.body.picture = req.file.filename) : null;
   const player = new Player({
     name: req.body.name,
-    birthdate: req.body.birthdate,
+    birthdate: new Date(req.body.birthdate),
     country: req.body.country,
+    picture: req.body.picture,
   });
   try {
     const newPlayer = await player.save();
     // res.redirect(`players/${newPlayer.id}`);
     res.redirect("players");
   } catch {
+    if (player.picture != null) {
+      removeBookCover(player.picture);
+    }
     res.render("players/new", {
       player: player,
       errorMessage: "Error creating Player",
@@ -45,3 +62,9 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
+
+function removeBookCover(fileName) {
+  fs.unlink(path.join(uploadPath, fileName), (err) => {
+    if (err) console.error(err);
+  });
+}

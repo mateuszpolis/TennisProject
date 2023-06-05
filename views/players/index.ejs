@@ -9,7 +9,14 @@
 <br />
 <% players.forEach(player => { %>
 <div>
-  <%= player.name %> <%= player.birthdate.toISOString().slice(0, 10) %> <%=
-  player.country %>
+  <img
+    height="100px"
+    width="80px"
+    style="object-fit: cover"
+    src="<%= player.picturePath %>"
+  />
+  <%= player.name %> 
+  <%= player.birthdate.toISOString().slice(0, 10) %> 
+  <%= player.country %>
 </div>
 <% }) %>

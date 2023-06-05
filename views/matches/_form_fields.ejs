@@ -1,28 +1,41 @@
 <p>
   <label for="player1">First Player</label>
-  <input type="text" name="player1" value="<%= match.player1 %>" />
+  <select name="player1">
+    <% players.forEach((player) => { %>
+      <option value="<%= player.id %>" <%= match.player1 === player.id ? 'selected' : '' %>><%= player.name %></option>
+    <% }); %>
+  </select>
 </p>
 <p>
   <label for="player2">Second Player</label>
-  <input type="text" name="player2" value="<%= match.player2 %>" />
+  <select name="player2">
+    <% players.forEach((player) => { %>
+      <option value="<%= player.id %>" <%= match.player2 === player.id ? 'selected' : '' %>><%= player.name %></option>
+    <% }); %>
+  </select>
 </p>
 <p>
   <label for="odds1">Odds for First Player</label>
-  <input type="number" step=".01" name="odds1" value="<%= match.odds1 %>" />
+  <input type="number" min="1" step=".01" name="odds1" value="<%= match.odds1 %>" />
 </p>
 <p>
   <label for="odds2">Odds for Second Player</label>
-  <input type="number" step=".01" name="odds2" value="<%= match.odds2 %>" />
+  <input type="number" mint="1" step=".01" name="odds2" value="<%= match.odds2 %>" />
 </p>
 <p>
   <label for="winner">Winner</label>
-  <input type="text" name="winner" value="<%= match.winner %>" />
+  <input type="radio" name="winner" value="player1" />
+  <input type="radio" name="winner" value="player2" />
 </p>
 <p>
   <label for="date">Date</label>
-  <input type="date" name="date" value="<%= match.date %>" />
+  <input type="date" name="date" value="<%= match.date == null ? '' : match.date.toISOString().slice(0, 10) %>" />
 </p>
 <p>
   <label for="tournament">Tournament</label>
-  <input type="text" name="tournament" value="<%= match.tournament %>" />
+  <select name="tournament">
+    <% tournaments.forEach((tournament) => { %>
+      <option value="<%= tournament.id %>" <%= match.tournament === tournament.id ? 'selected' : '' %>><%= tournament.name %></option>
+    <% }); %>
+  </select>
 </p>

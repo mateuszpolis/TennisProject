@@ -1,5 +1,5 @@
 <h2>New Player</h2>
-<form action="/players" method="POST">
+<form action="/players" method="POST" enctype="multipart/form-data">
   <%- include("./_form_fields.ejs") %>
   <input type="submit" value="Add Player" />
   <a href="/players">Cancel</a>

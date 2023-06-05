@@ -4,9 +4,13 @@
 </p>
 <p>
   <label for="birthdate">Date of birth</label>
-  <input type="date" name="birthdate" value="<%= player.birthdate %>" />
+  <input type="date" name="birthdate" value="<%= player.birthdate == null ? '' : player.birthdate.toISOString().slice(0, 10) %>" />
 </p>
 <p>
   <label for="country">Country</label>
   <input type="text" name="country" value="<%= player.country %>" />
+</p>
+<p>
+  <label for="picture">Picture</label>
+  <input type="file" name="picture"/>
 </p>
