@@ -45,6 +45,22 @@ const matchSchema = new mongoose.Schema({
   biorythmEmotional2: {
     type: Number,
   },
+  playerName1: {
+    type: String,
+    default: "",
+  },
+  playerName2: {
+    type: String,
+    default: "",
+  },
+  winnerName: { 
+    type: String,
+    default: "",  
+  },
+  tournamentName: { 
+    type: String,
+    default: "", 
+  },
 });
 
 module.exports = mongoose.model("Match", matchSchema);
