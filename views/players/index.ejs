@@ -15,8 +15,10 @@
     style="object-fit: cover"
     src="<%= player.picturePath %>"
   />
-  <%= player.name %> 
-  <%= player.birthdate.toISOString().slice(0, 10) %> 
-  <%= player.country %>
+  <%= player.name %> <%= player.birthdate.toISOString().slice(0, 10) %> <%=
+  player.country %>
+  <a href="/players/<%= player.id %>">View</a>
+  <a href="/players/<%= player.id %>/edit">Edit</a>
+  <%- include('../partials/deleteForm', { url: `/players/${player.id}`}) %>
 </div>
 <% }) %>

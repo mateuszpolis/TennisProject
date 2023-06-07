@@ -48,11 +48,10 @@ router.post("/", upload.single("picture"), async (req, res) => {
   });
   try {
     const newPlayer = await player.save();
-    // res.redirect(`players/${newPlayer.id}`);
-    res.redirect("players");
+    res.redirect(`/players/${newPlayer.id}`);
   } catch {
     if (player.picture != null) {
-      removeBookCover(player.picture);
+      removePicture(player.picture);
     }
     res.render("players/new", {
       player: player,
@@ -61,9 +60,59 @@ router.post("/", upload.single("picture"), async (req, res) => {
   }
 });
 
+// Show Player Route
+router.get("/:id", async (req, res) => {
+  res.send("Show Player " + req.params.id);
+});
+
+// Edit Player Route
+router.get("/:id/edit", async (req, res) => {
+  try {
+    const player = await Player.findById(req.params.id);
+    res.render("players/edit", { player: player });
+  } catch {
+    res.redirect("/players");
+  }
+});
+
+// Update Player Route
+router.put("/:id", async (req, res) => {
+  req.file != null ? (req.body.picture = req.file.filename) : null;
+  let player;
+  try {
+    player = await Player.findById(req.params.id);
+    console.log(player);
+    player.name = req.body.name;
+    console.log(req.body);
+    player.birthdate = new Date(req.body.birthdate);
+    player.country = req.body.country;
+    player.picture = req.body.picture;
+    await player.save();
+    res.redirect(`/players/${player.id}`);
+  } catch {
+    if (player != null) {
+      res.redirect("/");
+    } else {
+      res.render("players/edit", {
+        player: player,
+        errorMessage: "Error updating Player",
+      });
+    }
+  }
+});
+
+// Delete Player Page
+router.delete("/:id", async (req, res) => {
+  let player;
+
+  player = await Player.findById(req.params.id);
+  await Player.deleteOne({ _id: req.params.id });
+  res.redirect(`/players`);
+});
+
 module.exports = router;
 
-function removeBookCover(fileName) {
+function removePicture(fileName) {
   fs.unlink(path.join(uploadPath, fileName), (err) => {
     if (err) console.error(err);
   });

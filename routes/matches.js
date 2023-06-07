@@ -48,6 +48,11 @@ router.get("/", async (req, res) => {
         filteredMatches = matches;
       }
     }
+    filteredMatches.sort((a, b) => {
+      if (a.date > b.date) return -1;
+      else if (a.date < b.date) return 1;
+      else return 0;
+    })
     res.render("matches/index", {
       matches: filteredMatches,
       searchOptions: req.query,
@@ -103,8 +108,14 @@ module.exports = router;
 
 async function renderNewPage(res, match, hasError = false) {
   try {
-    const players = await Player.find({});
+    let players = await Player.find({});
     const tournaments = await Tournament.find({});
+    players.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      else if (a.name > b.name) return 1;
+      else return 0;
+    });
+    // ktorys z zandschlupem czy chuj wie i jeszcze zppieri norrie mial byc ruud
     const params = {
       players: players,
       match: match,

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const path = require("path");
+const Match = require("./match");
 
 const pictureBasePath = "uploads/playerPictures";
 
@@ -28,6 +29,24 @@ playerSchema.virtual("picturePath").get(function () {
     return path.join("/", pictureBasePath, this.picture);
   } else {
     return "/defaults/defaultPlayerPicture.png";
+  }
+});
+
+playerSchema.pre("deleteOne", async function (next) {
+  let matches = {};
+  try {
+    console.log(this);
+    matches = await Match.find({
+      $or: [{ player1: this.id }, { player2: this.id }],
+    });
+    console.log(matches);
+    if (Object.keys(matches).length > 0) {
+      next(new Error("This player has matches still"));
+    } else {
+      next();
+    }
+  } catch (err) {
+    next(err);
   }
 });
 
