@@ -9,16 +9,26 @@
 <br />
 <% matches.forEach(match => { %>
 <div>
-  <%= match.playerName1 %>
-  <%= match.playerName2 %>
-  <%= match.odds1 %>
-  <%= match.odds2 %>
-  <%= match.winnerName %>
-  <%= match.date.toISOString().slice(0, 10) %>
-  <%= match.tournamentName %>
-  <%= match.biorythmPhysical1 %>
-  <%= match.biorythmEmotional1 %>
-  <%= match.biorythmPhysical2 %>
-  <%= match.biorythmEmotional2 %>
+  <div>
+    <img
+      height="100px"
+      width="80px"
+      style="object-fit: cover"
+      src="<%= match.player1.picturePath %>"
+    />
+    <%= match.player1.name %>
+
+    <img
+      height="100px"
+      width="80px"
+      style="object-fit: cover"
+      src="<%= match.player2.picturePath %>"
+    />
+    <%= match.player2.name %>
+  </div>
+  <%= match.odds1 %> <%= match.odds2 %> <%= match.date.toISOString().slice(0,
+  10) %> <%= match.tournament.name %> <%= match.biorythmPhysical1 %> <%=
+  match.biorythmEmotional1 %> <%= match.biorythmPhysical2 %> <%=
+  match.biorythmEmotional2 %>
 </div>
 <% }) %>

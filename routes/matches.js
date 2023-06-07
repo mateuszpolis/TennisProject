@@ -14,8 +14,44 @@ router.get("/", async (req, res) => {
     searchOptions.player2 = new RegExp(req.query.player2, "i");
   }
   try {
-    const matches = await Match.find(searchOptions);
-    res.render("matches/index", { matches: matches, searchOptions: req.query });
+    const matches = await Match.find({})
+      .populate("player1")
+      .populate("player2")
+      .populate("winner")
+      .populate("tournament")
+      .exec();
+
+    let filteredMatches = [];
+    if (searchOptions?.player1 && searchOptions?.player2) {
+      for (const match of matches) {
+        if (
+          searchOptions.player1.test(match.player1.name) &&
+          searchOptions.player2.test(match.player2.name)
+        ) {
+          filteredMatches.push(match);
+        }
+      }
+    } else {
+      if (searchOptions?.player1) {
+        for (const match of matches) {
+          if (searchOptions?.player1.test(match.player1.name)) {
+            filteredMatches.push(match);
+          }
+        }
+      } else if (searchOptions?.player2) {
+        for (const match of matches) {
+          if (searchOptions?.player2.test(match.player2.name)) {
+            filteredMatches.push(match);
+          }
+        }
+      } else {
+        filteredMatches = matches;
+      }
+    }
+    res.render("matches/index", {
+      matches: filteredMatches,
+      searchOptions: req.query,
+    });
   } catch {
     res.redirect("/");
   }
@@ -33,12 +69,14 @@ router.post("/", async (req, res) => {
   const biorythms = await calculateBiorythms(
     req.body.date,
     req.body.player1,
-    req.body.player2,
-    winner,
-    req.body.tournament
+    req.body.player2
   );
 
-  console.log(biorythms);
+  for (let key in biorythms) {
+    if (Math.abs(biorythms[key]) < 0.001) {
+      biorythms[key] = 0;
+    }
+  }
 
   const match = new Match({
     player1: req.body.player1,
@@ -52,10 +90,6 @@ router.post("/", async (req, res) => {
     biorythmEmotional1: biorythms.emotional1.toPrecision(3),
     biorythmPhysical2: biorythms.physical2.toPrecision(3),
     biorythmEmotional2: biorythms.emotional2.toPrecision(3),
-    playerName1: biorythms.playerName1,
-    playerName2: biorythms.playerName2,
-    winnerName: biorythms.winnerName,
-    tournamentName: biorythms.tournamentName,
   });
   try {
     await match.save();
@@ -83,14 +117,12 @@ async function renderNewPage(res, match, hasError = false) {
   }
 }
 
-async function calculateBiorythms(date, player1, player2, winner, tournament) {
+async function calculateBiorythms(date, player1, player2) {
   date = new Date(date);
   let diffTime1, diffDays1, diffTime2, diffDays2;
 
   player1 = await Player.findById(player1);
   player2 = await Player.findById(player2);
-  winner = await Player.findById(winner);
-  tournament = await Tournament.findById(tournament);
 
   birthdate1 = new Date(player1.birthdate);
   diffTime1 = Math.abs(date.getTime() - birthdate1.getTime());
@@ -104,9 +136,5 @@ async function calculateBiorythms(date, player1, player2, winner, tournament) {
     emotional1: Math.sin((2 * Math.PI * diffDays1) / 28),
     physical2: Math.sin((2 * Math.PI * diffDays2) / 23),
     emotional2: Math.sin((2 * Math.PI * diffDays2) / 28),
-    playerName1: player1.name,
-    playerName2: player2.name,
-    winnerName: winner.name,
-    tournamentName: tournament.name,
   };
 }
