@@ -11,6 +11,7 @@ const indexRouter = require("./routes/index");
 const playerRouter = require("./routes/players");
 const matchRouter = require("./routes/matches");
 const tournamentRouter = require("./routes/tournaments");
+const statsRouter = require("./routes/stats");
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -29,5 +30,6 @@ app.use("/", indexRouter);
 app.use("/players", playerRouter);
 app.use("/matches", matchRouter);
 app.use("/tournaments", tournamentRouter);
+app.use("/stats", statsRouter);
 
 app.listen(process.env.PORT || 3000);
