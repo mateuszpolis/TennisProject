@@ -1,0 +1,17 @@
+<h2><%= player.name %></h2>
+<img
+  height="100px"
+  width="80px"
+  style="object-fit: cover"
+  src="<%= player?.picturePath %>"
+  alt="<%= player.name %>"
+/>
+<p><%= player.country %></p>
+<p><%= player.birthdate.toISOString().slice(0, 10) %></p>
+<a href="/players/<%= player.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm', { url: `/players/${player.id}`}) %>
+<a href="/players">Back</a>
+<% if (matches.length > 0) { %>
+<h3>Matches played</h3>
+<% matches.forEach(match => { %> <%- include('../partials/showMatch', { match:
+match }) %> <% }) %> <% } %>

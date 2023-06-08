@@ -63,7 +63,18 @@ router.post("/", upload.single("picture"), async (req, res) => {
 
 // Show Player Route
 router.get("/:id", async (req, res) => {
-  res.send("Show Player " + req.params.id);
+  try {
+    const player = await Player.findById(req.params.id);
+    const matches = await Match.find({
+      $or: [{ player1: player.id }, { player2: player.id }],
+    })
+      .populate("player1")
+      .populate("player2")
+      .exec();
+    res.render("players/show", { player: player, matches: matches });
+  } catch {
+    res.redirect("/");
+  }
 });
 
 // Edit Player Route
@@ -78,16 +89,12 @@ router.get("/:id/edit", async (req, res) => {
 
 // Update Player Route
 router.put("/:id", async (req, res) => {
-  req.file != null ? (req.body.picture = req.file.filename) : null;
   let player;
   try {
     player = await Player.findById(req.params.id);
-    console.log(player);
     player.name = req.body.name;
-    console.log(req.body);
     player.birthdate = new Date(req.body.birthdate);
     player.country = req.body.country;
-    player.picture = req.body.picture;
     await player.save();
     res.redirect(`/players/${player.id}`);
   } catch {
