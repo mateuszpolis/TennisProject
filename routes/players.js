@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Player = require("../models/player");
+const Match = require("../models/match");
 const uploadPath = path.join("public", Player.pictureBasePath);
 const upload = multer({
   dest: uploadPath,
@@ -104,10 +105,23 @@ router.put("/:id", async (req, res) => {
 // Delete Player Page
 router.delete("/:id", async (req, res) => {
   let player;
-
-  player = await Player.findById(req.params.id);
-  await Player.deleteOne({ _id: req.params.id });
-  res.redirect(`/players`);
+  try {
+    player = await Player.findById(req.params.id);
+    const matches = await Match.find({
+      $or: [{ player1: player.id }, { player2: player.id }],
+    });
+    if (matches.length > 0) {
+      console.err(new Error("Player has matches"));
+    }
+    await Player.deleteOne({ _id: req.params.id });
+    res.redirect(`/players`);
+  } catch {
+    if (player != null) {
+      res.redirect(`/players/${player.id}`);
+    } else {
+      res.redirect("/");
+    }
+  }
 });
 
 module.exports = router;

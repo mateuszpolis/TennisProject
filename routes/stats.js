@@ -17,13 +17,13 @@ router.get("/", async (req, res) => {
   let nOfMatchesWithBiorythm = 0;
   for (const match of matches) {
     let check = true;
-    if (match.player1.id === match.winner.id) {
+    if (match.player1?.id === match.winner?.id) {
       if (match.biorythmPhysical1 > match.biorythmPhysical2) {
         check = true;
       } else {
         check = false;
       }
-    } else if (match.player2.id === match.winner.id) {
+    } else if (match.player2?.id === match.winner?.id) {
       if (match.biorythmPhysical2 > match.biorythmPhysical1) {
         check = true;
       } else {

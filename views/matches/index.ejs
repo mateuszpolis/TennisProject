@@ -14,17 +14,17 @@
       height="100px"
       width="80px"
       style="object-fit: cover"
-      src="<%= match.player1.picturePath %>"
+      src="<%= match.player1?.picturePath %>"
     />
-    <%= match.player1.name %>
+    <%= match.player1?.name %>
 
     <img
       height="100px"
       width="80px"
       style="object-fit: cover"
-      src="<%= match.player2.picturePath %>"
+      src="<%= match.player2?.picturePath %>"
     />
-    <%= match.player2.name %>
+    <%= match.player2?.name %>
   </div>
   <%= match.odds1 %> <%= match.odds2 %> <%= match.date.toISOString().slice(0,
   10) %> <%= match.tournament.name %> <%= match.biorythmPhysical1 %> <%=
