@@ -71,6 +71,11 @@ router.get("/:id", async (req, res) => {
       .populate("player1")
       .populate("player2")
       .exec();
+    matches.sort((a, b) => {
+      if (a.date > b.date) return -1;
+      else if (a.date < b.date) return 1;
+      else return 0;
+    });
     res.render("players/show", { player: player, matches: matches });
   } catch {
     res.redirect("/");
@@ -109,7 +114,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete Player Page
+// Delete Player Route
 router.delete("/:id", async (req, res) => {
   let player;
   try {

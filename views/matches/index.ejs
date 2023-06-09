@@ -7,5 +7,11 @@
   <input type="submit" value="Search" />
 </form>
 <br />
-<% matches.forEach(match => { %> <%- include("../partials/showMatch.ejs",
-{match: match}) %> <% }) %>
+<% matches.forEach(match => { %>
+<div>
+  <%- include("../partials/showMatch.ejs", {match: match}) %>
+  <a href="/matches/<%= match.id %>">View</a>
+  <a href="/matches/<%= match.id %>/edit">Edit</a>
+  <%- include('../partials/deleteForm', { url: `/matches/${match.id}`}) %>
+</div>
+<% }) %>

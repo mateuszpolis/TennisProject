@@ -1,0 +1,28 @@
+<h2>Tournament: <%= match.tournament.name %></h2>
+<div>
+  <a href="/players/<%= match.player1?.id %>">
+    <img
+      height="100px"
+      width="80px"
+      style="object-fit: cover"
+      src="<%= match.player1?.picturePath %>"
+    />
+    <%= match.player1?.name %>
+  </a>
+  <h1>VS</h1>
+  <a href="/players/<%= match.player2?.id %>">
+    <img
+      height="100px"
+      width="80px"
+      style="object-fit: cover"
+      src="<%= match.player2?.picturePath %>"
+    />
+    <%= match.player2?.name %>
+  </a>
+</div>
+<div>
+  <h4>Odds:</h4>
+  <%= match.odds1 %>
+  <p>-</p>
+  <%= match.odds2 %>
+</div>

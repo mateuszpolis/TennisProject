@@ -52,7 +52,7 @@ router.get("/", async (req, res) => {
       if (a.date > b.date) return -1;
       else if (a.date < b.date) return 1;
       else return 0;
-    })
+    });
     res.render("matches/index", {
       matches: filteredMatches,
       searchOptions: req.query,
@@ -101,6 +101,79 @@ router.post("/", async (req, res) => {
     res.redirect("matches");
   } catch {
     renderNewPage(res, match, true);
+  }
+});
+
+// Show Match Route
+router.get("/:id", async (req, res) => {
+  try {
+    const match = await Match.findById(req.params.id)
+      .populate("player1")
+      .populate("player2")
+      .populate("winner")
+      .populate("tournament")
+      .exec();
+    res.render("matches/show", { match: match });
+  } catch {
+    res.redirect("/");
+  }
+});
+
+// Edit Match Route
+router.get("/:id/edit", async (req, res) => {
+  try {
+    const match = await Match.findById(req.params.id);
+    const players = await Player.find({});
+    const tournaments = await Tournament.find({});
+    res.render("matches/edit", {
+      match: match,
+      players: players,
+      tournaments: tournaments,
+    });
+  } catch {
+    res.redirect("/matches");
+  }
+});
+
+// Update Match Route
+router.put("/:id/edit", async (req, res) => {
+  let match;
+  try {
+    match = await Match.findById(req.params.id);
+    match.player1 = req.body.player1;
+    match.player2 = req.body.player2;
+    match.odds1 = req.body.odds1;
+    match.odds2 = req.body.odds2;
+    match.winner = req.body.winner;
+    match.date = new Date(req.body.date);
+    match.tournament = req.body.tournament;
+    await match.save();
+    res.redirect(`/matches/${match.id}`);
+  } catch {
+    if (match != null) {
+      res.render("matches/show", {
+        match: match,
+        errorMessage: "Error Updating Match",
+      });
+    } else {
+      res.redirect("/");
+    }
+  }
+});
+
+// Delete Match Route
+router.delete("/:id", async (req, res) => {
+  let match;
+  try {
+    match = await Match.findById(req.params.id);
+    await Match.deleteOne({ _id: req.params.id });
+    res.redirect(`/matches`);
+  } catch {
+    if (match != null) {
+      res.redirect(`/matches/${match.id}`);
+    } else {
+      res.redirect("/");
+    }
   }
 });
 

@@ -1,0 +1,6 @@
+<h2>Edit Match</h2>
+<form action="/matches/<%= match.id %>?_method=PUT" method="POST">
+  <%- include("./_form_fields.ejs") %>
+  <input type="submit" value="Save changes" />
+  <a href="/matches/<%= match.id %>">Cancel</a>
+</form>
