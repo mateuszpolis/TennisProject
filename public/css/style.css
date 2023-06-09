@@ -1,0 +1,9 @@
+@import "./shared/header.css";
+
+:root {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+}
