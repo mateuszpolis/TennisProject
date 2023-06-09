@@ -25,8 +25,10 @@ router.get("/", async (req, res) => {
     if (searchOptions?.player1 && searchOptions?.player2) {
       for (const match of matches) {
         if (
-          searchOptions.player1.test(match.player1.name) &&
-          searchOptions.player2.test(match.player2.name)
+          (searchOptions.player1.test(match.player1.name) &&
+            searchOptions.player2.test(match.player2.name)) ||
+          (searchOptions.player2.test(match.player1.name) &&
+            searchOptions.player1.test(match.player2.name))
         ) {
           filteredMatches.push(match);
         }
@@ -34,13 +36,19 @@ router.get("/", async (req, res) => {
     } else {
       if (searchOptions?.player1) {
         for (const match of matches) {
-          if (searchOptions?.player1.test(match.player1.name)) {
+          if (
+            searchOptions?.player1.test(match.player1.name) ||
+            searchOptions?.player1.test(match.player2.name)
+          ) {
             filteredMatches.push(match);
           }
         }
       } else if (searchOptions?.player2) {
         for (const match of matches) {
-          if (searchOptions?.player2.test(match.player2.name)) {
+          if (
+            searchOptions?.player2.test(match.player2.name) ||
+            searchOptions?.player2.test(match.player1.name)
+          ) {
             filteredMatches.push(match);
           }
         }
@@ -113,7 +121,21 @@ router.get("/:id", async (req, res) => {
       .populate("winner")
       .populate("tournament")
       .exec();
-    res.render("matches/show", { match: match });
+    let headToHead = await Match.find({
+      $or: [
+        { $and: [{ player1: match.player1 }, { player2: match.player2 }] },
+        { $and: [{ player1: match.player2 }, { player2: match.player1 }] },
+      ],
+    })
+      .populate("player1")
+      .populate("player2")
+      .exec();
+    headToHead.sort((a, b) => {
+      if (a.date > b.date) return -1;
+      else if (a.date < b.date) return 1;
+      else return 0;
+    });
+    res.render("matches/show", { match: match, headToHead: headToHead });
   } catch {
     res.redirect("/");
   }
@@ -123,7 +145,12 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/edit", async (req, res) => {
   try {
     const match = await Match.findById(req.params.id);
-    const players = await Player.find({});
+    let players = await Player.find({});
+    players.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      else if (a.name > b.name) return 1;
+      else return 0;
+    });
     const tournaments = await Tournament.find({});
     res.render("matches/edit", {
       match: match,
@@ -136,17 +163,35 @@ router.get("/:id/edit", async (req, res) => {
 });
 
 // Update Match Route
-router.put("/:id/edit", async (req, res) => {
+router.put("/:id", async (req, res) => {
   let match;
   try {
+    const winner =
+      req.body.winner === "player1" ? req.body.player1 : req.body.player2;
+    const biorythms = await calculateBiorythms(
+      req.body.date,
+      req.body.player1,
+      req.body.player2
+    );
+
+    for (let key in biorythms) {
+      if (Math.abs(biorythms[key]) < 0.001) {
+        biorythms[key] = 0;
+      }
+    }
+
     match = await Match.findById(req.params.id);
     match.player1 = req.body.player1;
     match.player2 = req.body.player2;
     match.odds1 = req.body.odds1;
     match.odds2 = req.body.odds2;
-    match.winner = req.body.winner;
+    match.winner = winner;
     match.date = new Date(req.body.date);
     match.tournament = req.body.tournament;
+    match.biorythmPhysical1 = biorythms.physical1.toPrecision(3);
+    match.biorythmEmotional1 = biorythms.emotional1.toPrecision(3);
+    match.biorythmPhysical2 = biorythms.physical2.toPrecision(3);
+    match.biorythmEmotional2 = biorythms.emotional2.toPrecision(3);
     await match.save();
     res.redirect(`/matches/${match.id}`);
   } catch {
@@ -188,7 +233,6 @@ async function renderNewPage(res, match, hasError = false) {
       else if (a.name > b.name) return 1;
       else return 0;
     });
-    // ktorys z zandschlupem czy chuj wie i jeszcze zppieri norrie mial byc ruud
     const params = {
       players: players,
       match: match,

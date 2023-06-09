@@ -2,7 +2,11 @@
   <label for="player1">First Player</label>
   <select name="player1">
     <% players.forEach((player) => { %>
-      <option value="<%= player.id %>" <%= match.player1 === player.id ? 'selected' : '' %>><%= player.name %></option>
+      <% if (match.player1 === player.id ) { %>
+        <option value="<%= player.id %>" selected><%= player.name %></option>
+      <% } else { %>
+        <option value="<%= player.id %>"><%= player.name %></option>
+      <% } %>
     <% }); %>
   </select>
 </p>
@@ -10,7 +14,11 @@
   <label for="player2">Second Player</label>
   <select name="player2">
     <% players.forEach((player) => { %>
-      <option value="<%= player.id %>" <%= match.player2 === player.id ? 'selected' : '' %>><%= player.name %></option>
+      <% if (match.player2 === player.id ) { %>
+        <option value="<%= player.id %>" selected><%= player.name %></option>
+      <% } else { %>
+        <option value="<%= player.id %>"><%= player.name %></option>
+      <% } %>
     <% }); %>
   </select>
 </p>
@@ -24,8 +32,16 @@
 </p>
 <p>
   <label for="winner">Winner</label>
-  <input type="radio" name="winner" value="player1" />
-  <input type="radio" name="winner" value="player2" />
+  <% if (match.winner === match.player1) { %>
+    <input type="radio" name="winner" value="player1" checked />
+    <input type="radio" name="winner" value="player2" />
+  <% } else if (match.winner === match.player2) { %>
+    <input type="radio" name="winner" value="player1" />
+    <input type="radio" name="winner" value="player2" checked />
+  <% } else { %> 
+    <input type="radio" name="winner" value="player1" />
+    <input type="radio" name="winner" value="player2" />
+  <% } %>
 </p>
 <p>
   <label for="date">Date</label>

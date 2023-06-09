@@ -26,3 +26,12 @@
   <p>-</p>
   <%= match.odds2 %>
 </div>
+<div>
+  <h3>H2H</h3>
+  <% if (!headToHead) { %>
+  <p>No matches played between these players</p>
+  <% } else {%>
+  <p>Matches played: <%= headToHead.length %></p>
+  <% headToHead.forEach(match => { %> <%- include("../partials/showMatch.ejs",
+  {match: match}) %> <% }) %> <% } %>
+</div>
