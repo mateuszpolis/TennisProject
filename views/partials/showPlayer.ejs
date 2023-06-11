@@ -1,0 +1,22 @@
+<a href="/players/<%= player.id %>" class="playerInfoView">
+  <div class="playerBox">
+    <div class="playerPicture">
+      <img
+        height="80px"
+        width="60px"
+        style="object-fit: cover"
+        src="<%= player.picturePath %>"
+      />
+    </div>
+    <div class="playerInfo">
+      <div><%= player.name %></div>
+      <div><%= player.birthdate.toISOString().slice(0, 10) %></div>
+      <div><%= player.country %></div>
+    </div>
+    <div class="managePlayer">
+      <%- include("../partials/editForm.ejs", {path:
+      `/players/${player.id}/edit`}) %> <%- include('../partials/deleteForm', {
+      url: `/players/${player.id}`}) %>
+    </div>
+  </div>
+</a>

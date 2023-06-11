@@ -1,0 +1,80 @@
+.playerBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 10px;
+  height: 80px;
+  border-radius: 5px;
+
+  transition: 0.1s;
+}
+
+.playerBox:hover {
+  cursor: pointer;
+
+  background-color: #00492e;
+}
+
+.playerBox:hover .playerInfoView {
+  color: white;
+}
+
+.playerPicture {
+  width: 80px;
+}
+
+.playerPicture img {
+  border-radius: 5px;
+}
+
+.playerInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  text-align: start;
+  width: 450px;
+}
+
+.playerInfo div {
+  width: 120px;
+  margin: 0 15px;
+}
+
+.playerInfo div {
+  display: inline-block;
+  margin: 0 25px;
+
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.managePlayer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  text-align: center;
+  width: 100px;
+}
+
+.managePlayer a {
+  color: black;
+  text-decoration: none;
+}
+
+.managePlayer span {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.playerInfoView {
+  display: contents;
+  color: black;
+
+  transition: 0.1s;
+}

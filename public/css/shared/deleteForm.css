@@ -1,0 +1,26 @@
+.deleteInput {
+  background-color: red;
+  color: white;
+
+  border: 0px;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+
+  transition: 0.1s;
+}
+
+.deleteInput:hover {
+  cursor: pointer;
+  background-color: #ff7f7f;
+}
+
+.deleteInput i {
+  color: white;
+
+  transition: 0.1s;
+}
+
+.deleteInput:hover i {
+  color: black;
+}

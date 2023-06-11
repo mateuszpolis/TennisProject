@@ -1,0 +1,30 @@
+.editButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: whitesmoke;
+  color: white;
+
+  border: 0px;
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  margin: 0 5px;
+
+  transition: 0.1s;
+}
+
+.editButton i {
+  color: black;
+
+  transition: 0.1s;
+}
+
+.editButton:hover i {
+  color: white;
+}
+
+.editButton:hover {
+  background-color: gray;
+}
