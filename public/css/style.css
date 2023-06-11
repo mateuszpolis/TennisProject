@@ -2,6 +2,7 @@
 @import "./views/showPlayer.css";
 @import "./shared/deleteForm.css";
 @import "./shared/editForm.css";
+@import "./shared/input.css";
 
 :root {
   font-family: "Roboto", sans-serif;

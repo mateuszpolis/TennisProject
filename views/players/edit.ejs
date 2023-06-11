@@ -2,6 +2,6 @@
 <form action="/players/<%= player.id %>?_method=PUT" method="POST">
   <%- include("./_form_fields.ejs") %>
   <input type="submit" value="Save Changes" />
-  <a href="/players/<%= player.id %>">Cancel</a>
+  <a class="cancelButton" href="/players/<%= player.id %>">Cancel</a>
   
 </form>

@@ -1,0 +1,79 @@
+label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #d7510f;
+}
+
+input:not([type="submit"]) {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #6a9484;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  transition: 0.1s;
+}
+
+input:not([type="submit"]):hover {
+  border-color: #00492e;
+}
+
+input:not([type="submit"]):focus {
+    border-color: #00492e;
+    outline: none;
+}
+
+input[type="submit"] {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #00492e;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  background-color: #00492e;
+  color: #ffffff;
+
+  transition: 0.1s;
+}
+
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+
+.cancelButton {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #e28355;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  background-color: #e28355;
+  color: #ffffff;
+
+  text-decoration: none;
+
+  transition: 0.1s;
+}
+
+.cancelButton:hover {
+  background-color: #d7510f;
+  border-color: #d7510f;
+}
