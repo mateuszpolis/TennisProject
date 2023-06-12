@@ -1,16 +1,12 @@
-<h2>Search matches</h2>
+<h2>SEARCH MATCHES</h2>
 <form action="/matches" method="GET">
-  <label for="player1">First Player</label>
+  <label for="player1">First Player:</label>
   <input type="text" name="player1" value="<%= searchOptions.player1%>" />
-  <label for="player2">Second Player</label>
+  <label for="player2">Second Player:</label>
   <input type="text" name="player2" value="<%= searchOptions.player2%>" />
   <input type="submit" value="Search" />
 </form>
 <br />
 <% matches.forEach(match => { %>
-<div>
-  <%- include("../partials/showMatch.ejs", {match: match}) %>
-  <a href="/matches/<%= match.id %>/edit">Edit</a>
-  <%- include('../partials/deleteForm', { url: `/matches/${match.id}`}) %>
-</div>
+<div><%- include("../partials/showMatch.ejs", {match: match}) %></div>
 <% }) %>

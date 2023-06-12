@@ -1,0 +1,87 @@
+.matchBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 10px;
+  height: 120px;
+  border-radius: 5px;
+
+  transition: 0.1s;
+}
+
+.matchBox:hover {
+  cursor: pointer;
+
+  background-color: #00492e;
+}
+
+.matchBox:hover .matchInfoView {
+  color: white;
+}
+
+.matchPicture {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  width: 80px;
+}
+
+.matchPicture img {
+  border-radius: 5px;
+}
+
+.playerName {
+  margin: 0;
+}
+
+.matchInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  text-align: start;
+  width: 450px;
+}
+
+.matchInfo div {
+  display: inline-block;
+  width: 120px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.tournamentBox {
+  font-weight: bold;
+}
+
+.manageMatch {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  text-align: center;
+  width: 100px;
+}
+
+.manageMatch a {
+  color: black;
+  text-decoration: none;
+}
+
+.manageMatch span {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.matchInfoView {
+  display: contents;
+  color: black;
+
+  transition: 0.1s;
+}

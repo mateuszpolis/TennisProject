@@ -1,25 +1,30 @@
-<a href="/matches/<%= match.id %>">
-  <div>
-    <div>
-      <img
-        height="100px"
-        width="80px"
-        style="object-fit: cover"
-        src="<%= match.player1?.picturePath %>"
-      />
-      <%= match.player1?.name %>
-
-      <img
-        height="100px"
-        width="80px"
-        style="object-fit: cover"
-        src="<%= match.player2?.picturePath %>"
-      />
-      <%= match.player2?.name %>
+<a href="/matches/<%= match.id %>" class="matchInfoView">
+  <div class="matchBox">
+    <div class="matchInfo">
+      <div class="matchPicture">
+        <img
+          height="80px"
+          width="64px"
+          style="object-fit: cover"
+          src="<%= match.player1?.picturePath %>"
+        />
+        <div class="playerName"><%= match.player1?.name %></div>
+      </div>
+      <div class="matchPicture">
+        <img
+          height="80px"
+          width="64px"
+          style="object-fit: cover"
+          src="<%= match.player2?.picturePath %>"
+        />
+        <div class="playerName"><%= match.player2?.name %></div>
+      </div>
     </div>
-    <%= match.odds1 %> <%= match.odds2 %> <%= match.date.toISOString().slice(0,
-    10) %> <%= match.tournament.name %> <%= match.biorythmPhysical1 %> <%=
-    match.biorythmEmotional1 %> <%= match.biorythmPhysical2 %> <%=
-    match.biorythmEmotional2 %>
+    <div class="tournamentBox"><%= match.tournament.name %></div>
+    <div class="manageMatch">
+      <%- include("../partials/editForm.ejs", {path:
+      `/matches/${match.id}/edit`}) %> <%- include('../partials/deleteForm', {
+      url: `/matches/${match.id}`}) %>
+    </div>
   </div>
 </a>

@@ -5,6 +5,7 @@
 @import "./shared/input.css";
 @import "./views/players/show.css";
 @import "./shared/backForm.css";
+@import "./views/partials/showMatch.css";
 
 :root {
   font-family: "Roboto", sans-serif;
