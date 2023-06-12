@@ -1,18 +1,38 @@
-<h2><%= player.name %></h2>
-<img
-  height="100px"
-  width="80px"
-  style="object-fit: cover"
-  src="<%= player?.picturePath %>"
-  alt="<%= player.name %>"
-/>
-<p><%= player.country %></p>
-<p><%= player.birthdate.toISOString().slice(0, 10) %></p>
-<a href="/players/<%= player.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm', { url: `/players/${player.id}`}) %>
-<a href="/players">Back</a>
+<div class="showPlayerWrap">
+  <div>
+    <h1><%= player.name %></h1>
+    <img
+      height="300px"
+      width="240px"
+      style="object-fit: cover"
+      src="<%= player?.picturePath %>"
+      alt="<%= player.name %>"
+    />
+  </div>
+  <div class="showPlayerInfo">
+    <div id="playerCountry">
+      <span><%= player.country.toUpperCase() %></span>
+      <span><%= player.birthdate.toISOString().slice(0, 10) %></span>
+    </div>
+    <div></div>
+    <div id="playerEdit">
+      <div>
+        <%- include("../partials/editForm.ejs", {path:
+        `/players/${player.id}/edit`})%>
+      </div>
+      <div>
+        <%- include('../partials/deleteForm', { url: `/players/${player.id}`})
+        %>
+      </div>
+      <div>
+        <a class="backButton" href="/players"
+          ><i class="fa-solid fa-arrow-left"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+</div>
 <% if (matches.length > 0) { %>
 <h3>Matches played</h3>
-<% matches.forEach(match => { %>
-  <%- include('../partials/showMatch', { match: match }) %>
-<% }) %> <% } %>
+<% matches.forEach(match => { %> <%- include('../partials/showMatch', { match:
+match }) %> <% }) %> <% } %>

@@ -1,0 +1,40 @@
+.showPlayerWrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.showPlayerWrap img {
+  border-radius: 5px;
+}
+
+.showPlayerInfo {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-left: 20px;
+  height: 300px;
+
+  font-size: 25px;
+}
+
+#playerCountry span {
+  display: block;
+  font-size: 25px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+#playerEdit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 20px;
+}
+
+a {
+  text-decoration: none;
+}

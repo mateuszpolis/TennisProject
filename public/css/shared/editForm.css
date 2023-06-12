@@ -10,7 +10,8 @@
   border-radius: 5px;
   height: 40px;
   width: 40px;
-  margin: 0 5px;
+  margin: 0;
+  margin-right: 5px;
 
   transition: 0.1s;
 }

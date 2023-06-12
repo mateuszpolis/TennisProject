@@ -1,8 +1,10 @@
 @import "./shared/header.css";
-@import "./views/showPlayer.css";
+@import "./views/partials/showPlayer.css";
 @import "./shared/deleteForm.css";
 @import "./shared/editForm.css";
 @import "./shared/input.css";
+@import "./views/players/show.css";
+@import "./shared/backForm.css";
 
 :root {
   font-family: "Roboto", sans-serif;
