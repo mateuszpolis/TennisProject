@@ -70,6 +70,8 @@ router.get("/:id", async (req, res) => {
     })
       .populate("player1")
       .populate("player2")
+      .populate("winner")
+      .populate("tournament")
       .exec();
     matches.sort((a, b) => {
       if (a.date > b.date) return -1;

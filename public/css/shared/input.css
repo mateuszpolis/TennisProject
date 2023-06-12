@@ -77,3 +77,24 @@ input[type="submit"]:hover {
   background-color: #d7510f;
   border-color: #d7510f;
 }
+
+select {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #6a9484;
+  background-color: white;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  transition: 0.1s;
+}
+
+select:hover {
+  border-color: #00492e;
+}

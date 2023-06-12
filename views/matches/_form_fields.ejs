@@ -1,5 +1,5 @@
 <p>
-  <label for="player1">First Player</label>
+  <label for="player1">First Player:</label>
   <select name="player1">
     <% players.forEach((player) => { %>
       <% if (match.player1 === player.id ) { %>
@@ -11,7 +11,7 @@
   </select>
 </p>
 <p>
-  <label for="player2">Second Player</label>
+  <label for="player2">Second Player:</label>
   <select name="player2">
     <% players.forEach((player) => { %>
       <% if (match.player2 === player.id ) { %>
@@ -23,15 +23,15 @@
   </select>
 </p>
 <p>
-  <label for="odds1">Odds for First Player</label>
+  <label for="odds1">Odds for First Player:</label>
   <input type="number" min="1" step=".01" name="odds1" value="<%= match.odds1 %>" />
 </p>
 <p>
-  <label for="odds2">Odds for Second Player</label>
+  <label for="odds2">Odds for Second Player:</label>
   <input type="number" mint="1" step=".01" name="odds2" value="<%= match.odds2 %>" />
 </p>
 <p>
-  <label for="winner">Winner</label>
+  <label for="winner">Winner:</label>
   <% if (match.winner === match.player1) { %>
     <input type="radio" name="winner" value="player1" checked />
     <input type="radio" name="winner" value="player2" />
@@ -44,11 +44,18 @@
   <% } %>
 </p>
 <p>
-  <label for="date">Date</label>
+  <label for="result1">Result for First Player:</label>
+  <input type="number" min="0" max="3" step="1" name="result1" value="<%= match.result1 %>" />
+</p>
+<p>
+  <label for="result2">Result for Second Player:</label>
+  <input type="number" min="0" max="3" step="1" name="result2" value="<%= match.result2 %>" />
+<p>
+  <label for="date">Date:</label>
   <input type="date" name="date" value="<%= match.date == null ? '' : match.date.toISOString().slice(0, 10) %>" />
 </p>
 <p>
-  <label for="tournament">Tournament</label>
+  <label for="tournament">Tournament:</label>
   <select name="tournament">
     <% tournaments.forEach((tournament) => { %>
       <option value="<%= tournament.id %>" <%= match.tournament === tournament.id ? 'selected' : '' %>><%= tournament.name %></option>

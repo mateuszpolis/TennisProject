@@ -96,6 +96,8 @@ router.post("/", async (req, res) => {
     player2: req.body.player2,
     odds1: req.body.odds1,
     odds2: req.body.odds2,
+    result1: req.body.result1,
+    result2: req.body.result2,
     winner: winner,
     date: new Date(req.body.date),
     tournament: req.body.tournament,
@@ -103,6 +105,8 @@ router.post("/", async (req, res) => {
     biorythmEmotional1: biorythms.emotional1.toPrecision(3),
     biorythmPhysical2: biorythms.physical2.toPrecision(3),
     biorythmEmotional2: biorythms.emotional2.toPrecision(3),
+    biorythmIntelectual1: biorythms.intelectual1.toPrecision(3),
+    biorythmIntelectual2: biorythms.intelectual2.toPrecision(3),
   });
   try {
     await match.save();
@@ -129,6 +133,7 @@ router.get("/:id", async (req, res) => {
     })
       .populate("player1")
       .populate("player2")
+      .populate("tournament")
       .exec();
     headToHead.sort((a, b) => {
       if (a.date > b.date) return -1;
@@ -185,6 +190,8 @@ router.put("/:id", async (req, res) => {
     match.player2 = req.body.player2;
     match.odds1 = req.body.odds1;
     match.odds2 = req.body.odds2;
+    match.result1 = req.body.result1;
+    match.result2 = req.body.result2;
     match.winner = winner;
     match.date = new Date(req.body.date);
     match.tournament = req.body.tournament;
@@ -192,6 +199,8 @@ router.put("/:id", async (req, res) => {
     match.biorythmEmotional1 = biorythms.emotional1.toPrecision(3);
     match.biorythmPhysical2 = biorythms.physical2.toPrecision(3);
     match.biorythmEmotional2 = biorythms.emotional2.toPrecision(3);
+    match.biorythmIntelectual1 = biorythms.intelectual1.toPrecision(3);
+    match.biorythmIntelectual2 = biorythms.intelectual2.toPrecision(3);
     await match.save();
     res.redirect(`/matches/${match.id}`);
   } catch {
@@ -264,5 +273,7 @@ async function calculateBiorythms(date, player1, player2) {
     emotional1: Math.sin((2 * Math.PI * diffDays1) / 28),
     physical2: Math.sin((2 * Math.PI * diffDays2) / 23),
     emotional2: Math.sin((2 * Math.PI * diffDays2) / 28),
+    intelectual1: Math.sin((2 * Math.PI * diffDays1) / 33),
+    intelectual2: Math.sin((2 * Math.PI * diffDays2) / 33),
   };
 }
