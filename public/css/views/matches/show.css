@@ -1,0 +1,68 @@
+.matchWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 50px;
+}
+
+.playersBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.playersBox h1 {
+  font-size: 3rem;
+  margin: 0 20px;
+}
+
+.matchPlayer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.matchPlayer img {
+  border-radius: 5px;
+}
+
+.matchPlayer img:hover {
+  cursor: pointer;
+  filter: brightness(0.8);
+}
+
+.matchPlayer a {
+  text-decoration: underline;
+  color: black;
+}
+
+.matchPlayer a:hover {
+  text-decoration: none;
+}
+
+.statsBox table {
+  width: 50%;
+  border-collapse: collapse;
+}
+
+.statsBox table tr td {
+  padding: 10px;
+  border-right: 5px #d7510f solid;
+
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.statsBox table tr td:first-child {
+  text-align: left;
+}
+
+.headToHead span {
+  color: #d7510f;
+}
+

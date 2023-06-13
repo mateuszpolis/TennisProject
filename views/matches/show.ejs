@@ -1,37 +1,85 @@
-<h2>Tournament: <%= match.tournament.name %></h2>
-<div>
-  <a href="/players/<%= match.player1?.id %>">
-    <img
-      height="100px"
-      width="80px"
-      style="object-fit: cover"
-      src="<%= match.player1?.picturePath %>"
-    />
-    <%= match.player1?.name %>
-  </a>
-  <h1>VS</h1>
-  <a href="/players/<%= match.player2?.id %>">
-    <img
-      height="100px"
-      width="80px"
-      style="object-fit: cover"
-      src="<%= match.player2?.picturePath %>"
-    />
-    <%= match.player2?.name %>
-  </a>
+<h2>
+  TOURNAMENT: <%= match.tournament.name %> (<%= match.tournament.tournamentRank
+  %>)
+</h2>
+<div class="matchWrapper">
+  <div class="playersBox">
+    <div class="matchPlayer">
+      <div>
+        <a href="/players/<%= match.player1?.id %>"
+          ><img
+            height="220px"
+            width="176px"
+            style="object-fit: cover"
+            src="<%= match.player1?.picturePath %>"
+        /></a>
+      </div>
+      <div>
+        <a href="/players/<%= match.player1?.id %>"
+          ><%= match.player1?.name %></a
+        >
+        (<%= match.player1?.country %>)
+      </div>
+    </div>
+    <h1>VS</h1>
+    <div class="matchPlayer">
+      <div>
+        <a href="/players/<%= match.player2?.id %>"
+          ><img
+            height="220px"
+            width="176px"
+            style="object-fit: cover"
+            src="<%= match.player2?.picturePath %>"
+        /></a>
+      </div>
+      <div>
+        <a href="/players/<%= match.player2?.id %>"
+          ><%= match.player2?.name %></a
+        >
+        (<%= match.player2?.country %>)
+      </div>
+    </div>
+  </div>
+  <div class="statsBox">
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td>RESULT</td>
+            <td><%= match.result1 %></td>
+            <td><%= match.result2 %></td>
+          </tr>
+          <tr>
+            <td>ODDS</td>
+            <td><%= match.odds1 %></td>
+            <td><%= match.odds2 %></td>
+          </tr>
+          <tr>
+            <td>PHYSICAL BIORYTHM</td>
+            <td><%= match.biorythmPhysical1 %></td>
+            <td><%= match.biorythmPhysical2 %></td>
+          </tr>
+          <tr>
+            <td>EMOTIONAL BIORYTHM</td>
+            <td><%= match.biorythmEmotional1 %></td>
+            <td><%= match.biorythmEmotional2 %></td>
+          </tr>
+          <tr>
+            <td>INTELLECTUAL BIORYTHM</td>
+            <td><%= match.biorythmIntelectual1 %></td>
+            <td><%= match.biorythmIntelectual2 %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-<div>
-  <h4>Odds:</h4>
-  <%= match.odds1 %>
-  <p>-</p>
-  <%= match.odds2 %>
-</div>
-<div>
-  <h3>H2H</h3>
+<div class="headToHead">
+  <h2>H2H</h2>
   <% if (!headToHead) { %>
-  <p>No matches played between these players</p>
+  <h3>No matches played between these players</h3>
   <% } else {%>
-  <p>Matches played: <%= headToHead.length %></p>
+  <h3>Matches played: <span><%= headToHead.length %></span></h3>
   <% headToHead.forEach(match => { %> <%- include("../partials/showMatch.ejs",
   {match: match}) %> <% }) %> <% } %>
 </div>

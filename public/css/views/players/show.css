@@ -38,3 +38,7 @@
 a {
   text-decoration: none;
 }
+
+#numberOfMatchesPlayed {
+  color: #d7510f;
+}
