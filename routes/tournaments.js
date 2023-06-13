@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();  
+const router = express.Router();
 const Tournament = require("../models/tournament");
 
 // All Tournaments Route
@@ -16,7 +16,12 @@ router.get("/", async (req, res) => {
   }
   try {
     const tournaments = await Tournament.find(searchOptions);
-    res.render("tournaments/index", { tournaments: tournaments, searchOptions: req.query });
+    const numberOfTournaments = tournaments.length;
+    res.render("tournaments/index", {
+      tournaments: tournaments,
+      searchOptions: req.query,
+      numberOfTournaments: numberOfTournaments,
+    });
   } catch {
     res.redirect("/");
   }

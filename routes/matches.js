@@ -61,9 +61,11 @@ router.get("/", async (req, res) => {
       else if (a.date < b.date) return 1;
       else return 0;
     });
+    const numberOfMatches = filteredMatches.length;
     res.render("matches/index", {
       matches: filteredMatches,
       searchOptions: req.query,
+      numberOfMatches: numberOfMatches,
     });
   } catch {
     res.redirect("/");

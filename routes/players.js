@@ -27,7 +27,12 @@ router.get("/", async (req, res) => {
   }
   try {
     const players = await Player.find(searchOptions);
-    res.render("players/index", { players: players, searchOptions: req.query });
+    const numberOfPlayers = players.length;
+    res.render("players/index", {
+      players: players,
+      searchOptions: req.query,
+      numberOfPlayers: numberOfPlayers,
+    });
   } catch {
     res.redirect("/");
   }
