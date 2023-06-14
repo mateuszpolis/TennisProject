@@ -1,0 +1,72 @@
+.tournamentBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 10px;
+  height: 80px;
+  border-radius: 5px;
+  width: auto;
+
+  transition: 0.1s;
+}
+
+.tournamentBox:hover {
+  cursor: pointer;
+
+  background-color: #00492e;
+}
+
+.tournamentBox:hover .tournamentInfoView {
+  color: white;
+}
+
+.tournamentInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  text-align: start;
+}
+
+.tournamentInfo div {
+  width: 120px;
+  margin: 0 15px;
+}
+
+.tournamentInfo div {
+  display: inline-block;
+  margin: 0 25px;
+
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.manageTournament {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  text-align: center;
+  width: 100px;
+}
+
+.manageTournament a {
+  color: black;
+  text-decoration: none;
+}
+
+.manageTournament span {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.tournamentInfoView {
+  display: contents;
+  color: black;
+
+  transition: 0.1s;
+}

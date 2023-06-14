@@ -7,6 +7,7 @@
 @import "./shared/backForm.css";
 @import "./views/partials/showMatch.css";
 @import "./views/matches/show.css";
+@import "./views/partials/showTournaments.css";
 
 :root {
   font-family: "Roboto", sans-serif;

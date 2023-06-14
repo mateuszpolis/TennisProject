@@ -1,0 +1,14 @@
+<a href="/tournaments/<%= tournament.id %>" class="tournamentInfoView">
+  <div class="tournamentBox">
+    <div class="tournamentInfo">
+      <div><%= tournament.name %></div>
+      <div><%= tournament.tournamentRank %></div>
+      <div><%= tournament.location %></div>
+    </div>
+    <div class="manageTournament">
+      <%- include("../partials/editForm.ejs", {path:
+      `/tournaments/${tournament.id}/edit`}) %> <%- include('../partials/deleteForm', {
+      url: `/tournament/${tournament.id}`}) %>
+    </div>
+  </div>
+</a>
