@@ -13,6 +13,12 @@
     <div id="playerCountry">
       <span><%= player.country.toUpperCase() %></span>
       <span><%= player.birthdate.toISOString().slice(0, 10) %></span>
+      <span
+        >W/L:
+        <span style="color: green; display: inline"><%= wins %></span>
+        /
+        <span style="color: red; display: inline"><%= losses %></span>
+      </span>
     </div>
     <div></div>
     <div id="playerEdit">
@@ -33,6 +39,8 @@
   </div>
 </div>
 <% if (matches.length > 0) { %>
-<h3>Matches played: <span id="numberOfMatchesPlayed"><%= matches.length %></span></h3>
+<h3>
+  Matches played: <span id="numberOfMatchesPlayed"><%= matches.length %></span>
+</h3>
 <% matches.forEach(match => { %> <%- include('../partials/showMatch', { match:
 match }) %> <% }) %> <% } %>

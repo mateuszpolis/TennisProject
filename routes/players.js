@@ -78,12 +78,26 @@ router.get("/:id", async (req, res) => {
       .populate("winner")
       .populate("tournament")
       .exec();
+    let wins = 0;
+    let losses = 0;
+    for (const match of matches) {
+      if (match.winner.id == player.id) {
+        wins++;
+      } else {
+        losses++;
+      }
+    }
     matches.sort((a, b) => {
       if (a.date > b.date) return -1;
       else if (a.date < b.date) return 1;
       else return 0;
     });
-    res.render("players/show", { player: player, matches: matches });
+    res.render("players/show", {
+      player: player,
+      matches: matches,
+      wins: wins,
+      losses: losses,
+    });
   } catch {
     res.redirect("/");
   }
