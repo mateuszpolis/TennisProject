@@ -9,9 +9,9 @@ Web application to create, manage and analyze(not implemented yet) a database of
 
 ## Technologies 
 
-Backend: Node.js, Express.js
-Frontend: EJS-layouts, CSS
-Database: MongoDB
+Backend: Node.js, Express.js;  
+Frontend: EJS-layouts, CSS; 
+Database: MongoDB; 
 
 ## Media
 ### How the application works(on 14.06.2023, not everything implemented yet):
