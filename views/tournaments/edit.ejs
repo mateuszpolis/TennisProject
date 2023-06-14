@@ -1,0 +1,6 @@
+<h2>Edit Tournament</h2>
+<form action="/tournaments<%= tournament.id %>?_method=PUT" method="POST">
+  <%- include("./_form_fields.ejs") %>
+  <input type="submit" value="Save Changes" />
+  <a class="cancelButton" href="/tournaments/<%= tournament.id %>">Cancel</a>
+</form>
