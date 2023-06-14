@@ -1,6 +1,11 @@
 <h2>
-  TOURNAMENT: <%= match.tournament.name %> (<%= match.tournament.tournamentRank
-  %>)
+  TOURNAMENT:
+  <a
+    style="text-decoration: underline; color: black"
+    href="/tournaments/<%= match.tournament.id %>"
+  >
+    <%=match.tournament.name %> (<%= match.tournament.tournamentRank %>)</a
+  >
 </h2>
 <h3 id="matchDate"><%= match.date.toDateString() %></h3>
 <div class="matchWrapper">
@@ -73,6 +78,20 @@
         </tbody>
       </table>
     </div>
+  </div>
+</div>
+<div id="matchesEdit">
+  <div>
+    <%- include("../partials/editForm.ejs", {path:
+    `/matches/${match.id}/edit`})%>
+  </div>
+  <div>
+    <%- include('../partials/deleteForm', { url: `/matches/${match.id}`}) %>
+  </div>
+  <div>
+    <a class="backButton" href="/matches"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
   </div>
 </div>
 <div class="headToHead">

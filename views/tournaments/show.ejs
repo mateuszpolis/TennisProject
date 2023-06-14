@@ -1,0 +1,31 @@
+<div id="showTournamentContainer">
+  <h1 style="font-size: 4rem"><%= tournament.name %></h1>
+  <h2 style="font-size: 3rem">
+    Country: <span style="color: #00492e"> <%= tournament.location %></span>
+  </h2>
+  <h3 style="font-size: 2rem">
+    Rank: <span style="color: #d7510f"><%= tournament.tournamentRank %></span>
+  </h3>
+</div>
+<div id="tournamentEdit">
+  <div>
+    <%- include("../partials/editForm.ejs", {path:
+    `/tournaments/${tournament.id}/edit`})%>
+  </div>
+  <div>
+    <%- include('../partials/deleteForm', { url:
+    `/tournaments/${tournament.id}`}) %>
+  </div>
+  <div>
+    <a class="backButton" href="/tournaments"
+      ><i class="fa-solid fa-arrow-left"></i
+    ></a>
+  </div>
+</div>
+<% if (matches.length > 0) { %>
+<h3>
+  Matches in this tournament:
+  <span id="numberOfMatchesPlayed"><%= matches.length %></span>
+</h3>
+<% matches.forEach(match => { %> <%- include('../partials/showMatch', { match:
+match }) %> <% }) %> <% } %>

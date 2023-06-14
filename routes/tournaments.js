@@ -56,7 +56,20 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const tournament = await Tournament.findById(req.params.id);
-    res.render("tournaments/show", { tournament: tournament });
+    const matches = await Match.find({ tournament: tournament.id })
+      .populate("player1")
+      .populate("player2")
+      .populate("winner")
+      .populate("tournament");
+    matches.sort((a, b) => {
+      if (a.date > b.date) return -1;
+      else if (a.date < b.date) return 1;
+      else return 0;
+    });
+    res.render("tournaments/show", {
+      tournament: tournament,
+      matches: matches,
+    });
   } catch {
     res.redirect("/");
   }

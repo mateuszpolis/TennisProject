@@ -9,6 +9,7 @@
 @import "./views/matches/show.css";
 @import "./views/partials/showTournaments.css";
 @import "./shared/footer.css";
+@import "./views/tournaments/show.css";
 
 :root {
   font-family: "Roboto", sans-serif;
