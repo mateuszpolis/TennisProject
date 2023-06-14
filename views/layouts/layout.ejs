@@ -18,7 +18,10 @@
     <title>TennisProject</title>
   </head>
   <body>
-    <%- include('../partials/header.ejs') %> <%-
-    include('../partials/errorMessage.ejs') %> <%- body %>
+    <div class="bodyContainer">
+      <%- include('../partials/header.ejs') %><%-
+      include('../partials/errorMessage.ejs') %> <%- body %>
+    </div>
+    <%- include("../partials/footer.ejs") %>
   </body>
 </html>
