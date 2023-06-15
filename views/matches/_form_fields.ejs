@@ -24,15 +24,15 @@
 </p>
 <p>
   <label for="winner">Winner:</label>
-  <% if (match.winner.toString() == match.player1.toString()) { %>
+  <% if (match.winner == null) { %>
+    <input type="radio" name="winner" value="player1" />
+    <input type="radio" name="winner" value="player2" />
+  <% } else if (match.winner.toString() == match.player1.toString()) { %>
     <input type="radio" name="winner" value="player1" checked />
     <input type="radio" name="winner" value="player2" />
   <% } else if (match.winner.toString() == match.player2.toString()) { %>
     <input type="radio" name="winner" value="player1" />
     <input type="radio" name="winner" value="player2" checked />
-  <% } else { %> 
-    <input type="radio" name="winner" value="player1" />
-    <input type="radio" name="winner" value="player2" />
   <% } %>
 </p>
 <p>

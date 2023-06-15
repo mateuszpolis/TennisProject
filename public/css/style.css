@@ -10,6 +10,7 @@
 @import "./views/partials/showTournaments.css";
 @import "./shared/footer.css";
 @import "./views/tournaments/show.css";
+@import "./shared/errorMessage.css";
 
 :root {
   font-family: "Roboto", sans-serif;

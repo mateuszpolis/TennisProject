@@ -4,11 +4,21 @@
       <div><%= tournament.name %></div>
       <div><%= tournament.tournamentRank %></div>
       <div><%= tournament.location %></div>
+      <div>
+        Surface: <% if(tournament.surface === 'Grass') { %>
+        <span class="tournamentSurface grass"><%= tournament.surface %></span>
+        <% } else if (tournament.surface === 'Clay') { %>
+        <span class="tournamentSurface clay"><%= tournament.surface %></span>
+        <% } else { %>
+        <span class="tournamentSurface hard"><%= tournament.surface %></span>
+        <% } %>
+      </div>
     </div>
     <div class="manageTournament">
       <%- include("../partials/editForm.ejs", {path:
-      `/tournaments/${tournament.id}/edit`}) %> <%- include('../partials/deleteForm', {
-      url: `/tournaments/${tournament.id}`}) %>
+      `/tournaments/${tournament.id}/edit`}) %> <%-
+      include('../partials/deleteForm', { url: `/tournaments/${tournament.id}`})
+      %>
     </div>
   </div>
 </a>

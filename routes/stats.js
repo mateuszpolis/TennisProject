@@ -14,30 +14,38 @@ router.get("/", async (req, res) => {
     .exec();
 
   const nOfMatches = Object.keys(matches).length;
-  let nOfMatchesWithBiorythm = 0;
+  let nOfMatchesWithBiorythmPhysical = 0;
+  let nOfMatchesWithBiorythmEmotional = 0;
+  let nOfMatchesWithBiorythmIntellectual = 0;
   for (const match of matches) {
-    let check = true;
     if (match.player1?.id === match.winner?.id) {
       if (match.biorythmPhysical1 > match.biorythmPhysical2) {
-        check = true;
-      } else {
-        check = false;
+        nOfMatchesWithBiorythmPhysical++;
+      }
+      if (match.biorythmEmotional1 > match.biorythmEmotional2) {
+        nOfMatchesWithBiorythmEmotional++;
+      }
+      if (match.biorythmIntelectual1 > match.biorythmIntelectual2) {
+        nOfMatchesWithBiorythmIntellectual++;
       }
     } else if (match.player2?.id === match.winner?.id) {
       if (match.biorythmPhysical2 > match.biorythmPhysical1) {
-        check = true;
-      } else {
-        check = false;
+        nOfMatchesWithBiorythmPhysical++;
       }
-    }
-    if (check) {
-      nOfMatchesWithBiorythm++;
+      if (match.biorythmEmotional2 > match.biorythmEmotional1) {
+        nOfMatchesWithBiorythmEmotional++;
+      }
+      if (match.biorythmIntelectual2 > match.biorythmIntelectual1) {
+        nOfMatchesWithBiorythmIntellectual++;
+      }
     }
   }
   res.render("stats/index", {
     stats: {
       allMatches: nOfMatches,
-      biorythmPhysical: nOfMatchesWithBiorythm,
+      biorythmPhysical: nOfMatchesWithBiorythmPhysical,
+      biorythmEmotional: nOfMatchesWithBiorythmEmotional,
+      biorythmIntellectual: nOfMatchesWithBiorythmIntellectual,
     },
   });
 });

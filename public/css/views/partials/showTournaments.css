@@ -70,3 +70,23 @@
 
   transition: 0.1s;
 }
+
+.tournamentSurface {
+  transition: 0.1s;
+}
+
+.tournamentBox:hover .tournamentSurface {
+  color: white;
+}
+
+.clay {
+  color: #d7510f;
+}
+
+.grass {
+  color: #00492e;
+}
+
+.hard {
+  color: #407db1;
+}
