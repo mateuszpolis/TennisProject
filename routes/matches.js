@@ -113,14 +113,6 @@ router.post("/", async (req, res) => {
     biorythmIntelectual2: biorythms.intelectual2.toPrecision(3),
   });
 
-  const biorythms2 = {
-    physical1: match.biorythmPhysical1,
-    physical2: match.biorythmPhysical2,
-    emotional1: match.biorythmEmotional1,
-    emotional2: match.biorythmEmotional2,
-    intelectual1: match.biorythmIntelectual1,
-    intelectual2: match.biorythmIntelectual2,
-  };
   const odds = {
     odds1: match.odds1,
     odds2: match.odds2,
@@ -346,10 +338,10 @@ function predictWinner(biorythms, odds) {
     (biorythms.physical1 + biorythms.emotional1 + biorythms.intelectual1) / 3;
   player2Average =
     (biorythms.physical2 + biorythms.emotional2 + biorythms.intelectual2) / 3;
-  player1Adjusted = player1Average * odds.odds1;
-  player2Adjusted = player2Average * odds.odds2;
+  player1Adjusted = player1Average / odds.odds1;
+  player2Adjusted = player2Average / odds.odds2;
 
-  if (Math.abs(player1Adjusted - player2Adjusted) < 0.2) {
+  if (Math.abs(player1Adjusted - player2Adjusted) < 0.05) {
     return "tie";
   } else if (player1Adjusted > player2Adjusted) {
     return "player1";
@@ -366,6 +358,11 @@ async function updateAllMatches() {
       match.player1,
       match.player2
     );
+    for (let key in biorythms) {
+      if (Math.abs(biorythms[key]) < 0.001) {
+        biorythms[key] = 0;
+      }
+    }
     match.biorythmPhysical1 = biorythms.physical1.toPrecision(3);
     match.biorythmEmotional1 = biorythms.emotional1.toPrecision(3);
     match.biorythmIntelectual1 = biorythms.intelectual1.toPrecision(3);
