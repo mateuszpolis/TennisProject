@@ -67,6 +67,8 @@ router.get("/", async (req, res) => {
       searchOptions: req.query,
       numberOfMatches: numberOfMatches,
     });
+    // uncomment when you want to update all matches
+    // updateAllMatches();
   } catch {
     res.redirect("/");
   }
@@ -110,6 +112,28 @@ router.post("/", async (req, res) => {
     biorythmIntelectual1: biorythms.intelectual1.toPrecision(3),
     biorythmIntelectual2: biorythms.intelectual2.toPrecision(3),
   });
+
+  const biorythms2 = {
+    physical1: match.biorythmPhysical1,
+    physical2: match.biorythmPhysical2,
+    emotional1: match.biorythmEmotional1,
+    emotional2: match.biorythmEmotional2,
+    intelectual1: match.biorythmIntelectual1,
+    intelectual2: match.biorythmIntelectual2,
+  };
+  const odds = {
+    odds1: match.odds1,
+    odds2: match.odds2,
+  };
+  const prediction = predictWinner(biorythms, odds);
+  if (prediction === "player1") {
+    match.predictedWinner = match.player1;
+  } else if (prediction === "player2") {
+    match.predictedWinner = match.player2;
+  } else {
+    match.predictedWinner = null;
+  }
+
   try {
     await match.save();
     res.redirect("matches");
@@ -126,6 +150,7 @@ router.get("/:id", async (req, res) => {
       .populate("player2")
       .populate("winner")
       .populate("tournament")
+      .populate("predictedWinner")
       .exec();
     let headToHead = await Match.find({
       $or: [
@@ -199,6 +224,28 @@ router.put("/:id", async (req, res) => {
     match.biorythmEmotional2 = biorythms.emotional2.toPrecision(3);
     match.biorythmIntelectual1 = biorythms.intelectual1.toPrecision(3);
     match.biorythmIntelectual2 = biorythms.intelectual2.toPrecision(3);
+
+    const biorythms2 = {
+      physical1: match.biorythmPhysical1,
+      physical2: match.biorythmPhysical2,
+      emotional1: match.biorythmEmotional1,
+      emotional2: match.biorythmEmotional2,
+      intelectual1: match.biorythmIntelectual1,
+      intelectual2: match.biorythmIntelectual2,
+    };
+    const odds = {
+      odds1: match.odds1,
+      odds2: match.odds2,
+    };
+    const prediction = predictWinner(biorythms2, odds);
+    if (prediction === "player1") {
+      match.predictedWinner = match.player1;
+    } else if (prediction === "player2") {
+      match.predictedWinner = match.player2;
+    } else {
+      match.predictedWinner = null;
+    }
+    console.log(match.predictedWinner);
     await match.save();
     res.redirect(`/matches/${match.id}`);
   } catch {
@@ -292,4 +339,52 @@ async function calculateBiorythms(date, player1, player2) {
     intelectual1: Math.sin((2 * Math.PI * diffDays1) / 33),
     intelectual2: Math.sin((2 * Math.PI * diffDays2) / 33),
   };
+}
+
+function predictWinner(biorythms, odds) {
+  player1Average =
+    (biorythms.physical1 + biorythms.emotional1 + biorythms.intelectual1) / 3;
+  player2Average =
+    (biorythms.physical2 + biorythms.emotional2 + biorythms.intelectual2) / 3;
+  player1Adjusted = player1Average * odds.odds1;
+  player2Adjusted = player2Average * odds.odds2;
+
+  if (Math.abs(player1Adjusted - player2Adjusted) < 0.2) {
+    return "tie";
+  } else if (player1Adjusted > player2Adjusted) {
+    return "player1";
+  } else {
+    return "player2";
+  }
+}
+
+async function updateAllMatches() {
+  const matches = await Match.find({});
+  for (let match of matches) {
+    const biorythms = await calculateBiorythms(
+      match.date,
+      match.player1,
+      match.player2
+    );
+    match.biorythmPhysical1 = biorythms.physical1.toPrecision(3);
+    match.biorythmEmotional1 = biorythms.emotional1.toPrecision(3);
+    match.biorythmIntelectual1 = biorythms.intelectual1.toPrecision(3);
+    match.biorythmPhysical2 = biorythms.physical2.toPrecision(3);
+    match.biorythmEmotional2 = biorythms.emotional2.toPrecision(3);
+    match.biorythmIntelectual2 = biorythms.intelectual2.toPrecision(3);
+    const odds = {
+      odds1: match.odds1,
+      odds2: match.odds2,
+    };
+    const prediction = predictWinner(biorythms, odds);
+    if (prediction === "player1") {
+      match.predictedWinner = match.player1;
+    } else if (prediction === "player2") {
+      match.predictedWinner = match.player2;
+    } else {
+      match.predictedWinner = null;
+    }
+    console.log(match.predictedWinner);
+    await match.save();
+  }
 }

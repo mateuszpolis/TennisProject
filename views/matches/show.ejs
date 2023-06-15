@@ -14,7 +14,13 @@
   if (match.tournament.surface === 'Clay') { %>
   <span style="color: #d7510f"><%= match.tournament.surface %></span> <% } else
   { %> <span style="color: #407db1"><%= match.tournament.surface %></span> <% }
-  %>
+  %> <% if(match.predictedWinner == null || match.predictedWinner == "") {%> ,
+  no prediction <% } else if (match.predictedWinner?.id === match.winner?.id) {
+  %> , predicted winner:
+  <span style="color: green"><%= match.predictedWinner?.name %></span> <% } else
+  { %> , predicted winner:
+  <span style="color: red"><%= match.predictedWinner?.name %></span>
+  <% }%>
 </h3>
 <div class="matchWrapper">
   <div class="playersBox">

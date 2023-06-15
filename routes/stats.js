@@ -11,13 +11,22 @@ router.get("/", async (req, res) => {
     .populate("player2")
     .populate("winner")
     .populate("tournament")
+    .populate("predictedWinner")
     .exec();
 
   const nOfMatches = Object.keys(matches).length;
   let nOfMatchesWithBiorythmPhysical = 0;
   let nOfMatchesWithBiorythmEmotional = 0;
   let nOfMatchesWithBiorythmIntellectual = 0;
+  let nOfMatchesWithPredictedWinner = 0;
+  let nOfMatchesWithPredictedWinnerCorrect = 0;
   for (const match of matches) {
+    if (match.predictedWinner != null) {
+      nOfMatchesWithPredictedWinner++;
+      if (match.predictedWinner?.id === match.winner?.id) {
+        nOfMatchesWithPredictedWinnerCorrect++;
+      }
+    }
     if (match.player1?.id === match.winner?.id) {
       if (match.biorythmPhysical1 > match.biorythmPhysical2) {
         nOfMatchesWithBiorythmPhysical++;
@@ -46,6 +55,8 @@ router.get("/", async (req, res) => {
       biorythmPhysical: nOfMatchesWithBiorythmPhysical,
       biorythmEmotional: nOfMatchesWithBiorythmEmotional,
       biorythmIntellectual: nOfMatchesWithBiorythmIntellectual,
+      predictions: nOfMatchesWithPredictedWinner,
+      correctPredictions: nOfMatchesWithPredictedWinnerCorrect,
     },
   });
 });

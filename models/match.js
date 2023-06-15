@@ -61,6 +61,11 @@ const matchSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  predictedWinner: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: null,
+    ref: "Player",
+  },
 });
 
 module.exports = mongoose.model("Match", matchSchema);
