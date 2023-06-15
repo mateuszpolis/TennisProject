@@ -150,22 +150,12 @@ router.get("/:id", async (req, res) => {
 
 // Edit Match Route
 router.get("/:id/edit", async (req, res) => {
+  let match;
   try {
-    const match = await Match.findById(req.params.id);
-    let players = await Player.find({});
-    players.sort((a, b) => {
-      if (a.name < b.name) return -1;
-      else if (a.name > b.name) return 1;
-      else return 0;
-    });
-    const tournaments = await Tournament.find({});
-    res.render("matches/edit", {
-      match: match,
-      players: players,
-      tournaments: tournaments,
-    });
+    match = await Match.findById(req.params.id);
+    renderEditPage(res, match);
   } catch {
-    res.redirect("/matches");
+    res.redirect("/");
   }
 });
 
@@ -173,8 +163,14 @@ router.get("/:id/edit", async (req, res) => {
 router.put("/:id", async (req, res) => {
   let match;
   try {
-    const winner =
-      req.body.winner === "player1" ? req.body.player1 : req.body.player2;
+    let winner;
+    if (req.body.winner === "player1") {
+      winner = req.body.player1;
+    } else if (req.body.winner === "player2") {
+      winner = req.body.player2;
+    } else {
+      winner = null;
+    }
     const biorythms = await calculateBiorythms(
       req.body.date,
       req.body.player1,
@@ -207,10 +203,7 @@ router.put("/:id", async (req, res) => {
     res.redirect(`/matches/${match.id}`);
   } catch {
     if (match != null) {
-      res.render("matches/show", {
-        match: match,
-        errorMessage: "Error Updating Match",
-      });
+      renderEditPage(res, match, true);
     } else {
       res.redirect("/");
     }
@@ -234,6 +227,27 @@ router.delete("/:id", async (req, res) => {
 });
 
 module.exports = router;
+
+async function renderEditPage(res, match, hasError = false) {
+  try {
+    let players = await Player.find({});
+    players.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      else if (a.name > b.name) return 1;
+      else return 0;
+    });
+    const tournaments = await Tournament.find({});
+    const params = {
+      players: players,
+      match: match,
+      tournaments: tournaments,
+    };
+    if (hasError) params.errorMessage = "Error Updating Match";
+    res.render("matches/edit", params);
+  } catch {
+    res.redirect("/matches");
+  }
+}
 
 async function renderNewPage(res, match, hasError = false) {
   try {

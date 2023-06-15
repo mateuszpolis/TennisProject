@@ -39,11 +39,11 @@ router.post("/", async (req, res) => {
     name: req.body.name,
     location: req.body.location,
     tournamentRank: req.body.tournamentRank,
+    surface: req.body.surface,
   });
   try {
     const newTournament = await tournament.save();
-    // res.redirect(`tournaments/${newTournament.id}`);
-    res.redirect("tournaments");
+    res.redirect(`tournaments/${newTournament.id}`);
   } catch {
     res.render("tournaments/new", {
       tournament: tournament,
@@ -93,6 +93,7 @@ router.put("/:id", async (req, res) => {
     tournament.name = req.body.name;
     tournament.location = req.body.location;
     tournament.tournamentRank = req.body.tournamentRank;
+    tournament.surface = req.body.surface;
     await tournament.save();
     res.redirect(`/tournaments/${tournament.id}`);
   } catch {

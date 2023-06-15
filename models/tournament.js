@@ -13,7 +13,12 @@ const tournamentSchema = new mongoose.Schema({
   tournamentRank: {
     type: Number,
     required: true,
-  }
+  },
+  surface: {
+    type: String,
+    required: true,
+    default: "Hard",
+  },
 });
 
 module.exports = mongoose.model("Tournament", tournamentSchema);

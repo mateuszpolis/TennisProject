@@ -7,7 +7,15 @@
     <%=match.tournament.name %> (<%= match.tournament.tournamentRank %>)</a
   >
 </h2>
-<h3 id="matchDate"><%= match.date.toDateString() %></h3>
+<h3>
+  <span id="matchDate"><%= match.date.toDateString() %></span>, surface: <%
+  if(match.tournament.surface === 'Grass') { %>
+  <span style="color: #00492e"><%= match.tournament.surface %></span> <% } else
+  if (match.tournament.surface === 'Clay') { %>
+  <span style="color: #d7510f"><%= match.tournament.surface %></span> <% } else
+  { %> <span style="color: #407db1"><%= match.tournament.surface %></span> <% }
+  %>
+</h3>
 <div class="matchWrapper">
   <div class="playersBox">
     <div class="matchPlayer">

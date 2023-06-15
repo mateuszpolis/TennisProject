@@ -1,11 +1,18 @@
 <div id="showTournamentContainer">
   <h1 style="font-size: 4rem"><%= tournament.name %></h1>
-  <h2 style="font-size: 3rem">
-    Country: <span style="color: #00492e"> <%= tournament.location %></span>
+  <h2 style="font-size: 2.5rem">
+    Country: <span> <%= tournament.location %></span>
   </h2>
-  <h3 style="font-size: 2rem">
-    Rank: <span style="color: #d7510f"><%= tournament.tournamentRank %></span>
+  <h3 style="font-size: 2.5rem">
+    Surface: <% if(tournament.surface === 'Grass') { %>
+    <span style="color: #00492e"><%= tournament.surface %></span> <% } else if
+    (tournament.surface === 'Clay') { %>
+    <span style="color: #d7510f"><%= tournament.surface %></span> <% } else { %>
+    <span style="color: #407db1"><%= tournament.surface %></span> <% } %>
   </h3>
+  <h4 style="font-size: 2rem">
+    Rank: <span><%= tournament.tournamentRank %></span>
+  </h4>
 </div>
 <div id="tournamentEdit">
   <div>
@@ -17,9 +24,9 @@
     `/tournaments/${tournament.id}`}) %>
   </div>
   <div>
-    <a class="backButton" href="/tournaments"
-      ><i class="fa-solid fa-arrow-left"></i
-    ></a>
+    <a class="backButton" href="/tournaments">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
   </div>
 </div>
 <% if (matches.length > 0) { %>
