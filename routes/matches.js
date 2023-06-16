@@ -343,9 +343,10 @@ function predictWinner(biorythms, odds) {
   player1Adjusted = player1Average / odds.odds1;
   player2Adjusted = player2Average / odds.odds2;
 
-  if (Math.abs(player1Adjusted - player2Adjusted) < 0.3) {
-    return "tie";
-  } else if (player1Adjusted > player2Adjusted) {
+  // if (Math.abs(player1Adjusted - player2Adjusted) < 0.3) {
+  //   return "tie";
+  // } else
+  if (player1Adjusted > player2Adjusted) {
     return "player1";
   } else {
     return "player2";

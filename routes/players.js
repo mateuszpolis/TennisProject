@@ -27,6 +27,7 @@ router.get("/", async (req, res) => {
   }
   try {
     const players = await Player.find(searchOptions);
+    players.reverse();
     const numberOfPlayers = players.length;
     res.render("players/index", {
       players: players,
