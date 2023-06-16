@@ -118,7 +118,7 @@ router.post("/", async (req, res) => {
     odds1: match.odds1,
     odds2: match.odds2,
   };
-  const prediction = predictWinner(biorythms, odds);
+  const prediction = await predictWinner(biorythms, odds, match.tournament);
   if (prediction === "player1") {
     match.predictedWinner = match.player1;
   } else if (prediction === "player2") {
@@ -230,7 +230,7 @@ router.put("/:id", async (req, res) => {
       odds1: match.odds1,
       odds2: match.odds2,
     };
-    const prediction = predictWinner(biorythms2, odds);
+    const prediction = await predictWinner(biorythms2, odds, match.tournament);
     if (prediction === "player1") {
       match.predictedWinner = match.player1;
     } else if (prediction === "player2") {
@@ -333,19 +333,103 @@ async function calculateBiorythms(date, player1, player2) {
   };
 }
 
-function predictWinner(biorythms, odds) {
+async function getWeights(surface, tournamentRank) {
+  let weights = {
+    physicalSurface: 0,
+    emotionalSurface: 0,
+    intelectualSurface: 0,
+    physicalRank: 0,
+    emotionalRank: 0,
+    intelectualRank: 0,
+  };
+  try {
+    const matches = await Match.find({})
+      .populate("tournament")
+      .populate("winner")
+      .exec();
+    for (let match of matches) {
+      let winnerPhysical, winnerEmotional, winnerIntelectual;
+      let loserPhysical, loserEmotional, loserIntelectual;
+      if (match.winner.id === match.player1) {
+        winnerPhysical = match.biorythmPhysical1;
+        winnerEmotional = match.biorythmEmotional1;
+        winnerIntelectual = match.biorythmIntelectual1;
+        loserPhysical = match.biorythmPhysical2;
+        loserEmotional = match.biorythmEmotional2;
+        loserIntelectual = match.biorythmIntelectual2;
+      } else {
+        winnerPhysical = match.biorythmPhysical2;
+        winnerEmotional = match.biorythmEmotional2;
+        winnerIntelectual = match.biorythmIntelectual2;
+        loserPhysical = match.biorythmPhysical1;
+        loserEmotional = match.biorythmEmotional1;
+        loserIntelectual = match.biorythmIntelectual1;
+      }
+      if (match.tournament.surface === surface) {
+        if (winnerPhysical > loserPhysical) {
+          weights.physicalSurface++;
+        }
+        if (winnerEmotional > loserEmotional) {
+          weights.emotionalSurface++;
+        }
+        if (winnerIntelectual > loserIntelectual) {
+          weights.intelectualSurface++;
+        }
+      }
+      if (match.tournament.tournamentRank === tournamentRank) {
+        if (winnerPhysical > loserPhysical) {
+          weights.physicalRank++;
+        }
+        if (winnerEmotional > loserEmotional) {
+          weights.emotionalRank++;
+        }
+        if (winnerIntelectual > loserIntelectual) {
+          weights.intelectualRank++;
+        }
+      }
+    }
+  } catch {
+    console.log("error");
+  }
+  return weights;
+}
+
+async function predictWinner(biorythms, odds, tournamentId) {
+  const tournament = await Tournament.findById(tournamentId).exec();
+  const weights = await getWeights(
+    tournament.surface,
+    tournament.tournamentRank
+  );
   player1Average =
-    (biorythms.physical1 + biorythms.emotional1 + biorythms.intelectual1 + 3) /
-    3;
+    ((biorythms.physical1 + 1) *
+      (weights.physicalSurface + weights.physicalRank) +
+      (biorythms.emotional1 + 1) *
+        (weights.emotionalSurface + weights.emotionalRank) +
+      (biorythms.intelectual1 + 1) *
+        (weights.intelectualSurface + weights.intelectualRank)) /
+    (weights.physicalSurface +
+      weights.physicalRank +
+      weights.emotionalSurface +
+      weights.emotionalRank +
+      weights.intelectualSurface +
+      weights.intelectualRank);
   player2Average =
-    (biorythms.physical2 + biorythms.emotional2 + biorythms.intelectual2 + 3) /
-    3;
+    ((biorythms.physical2 + 1) *
+      (weights.physicalSurface + weights.physicalRank) +
+      (biorythms.emotional2 + 1) *
+        (weights.emotionalSurface + weights.emotionalRank) +
+      (biorythms.intelectual2 + 1) *
+        (weights.intelectualSurface + weights.intelectualRank)) /
+    (weights.physicalSurface +
+      weights.physicalRank +
+      weights.emotionalSurface +
+      weights.emotionalRank +
+      weights.intelectualSurface +
+      weights.intelectualRank);
+
   player1Adjusted = player1Average / odds.odds1;
   player2Adjusted = player2Average / odds.odds2;
 
-  // if (Math.abs(player1Adjusted - player2Adjusted) < 0.3) {
-  //   return "tie";
-  // } else
   if (player1Adjusted > player2Adjusted) {
     return "player1";
   } else {
@@ -376,7 +460,7 @@ async function updateAllMatches() {
       odds1: match.odds1,
       odds2: match.odds2,
     };
-    const prediction = predictWinner(biorythms, odds);
+    const prediction = await predictWinner(biorythms, odds, match.tournament);
     if (prediction === "player1") {
       match.predictedWinner = match.player1;
     } else if (prediction === "player2") {
