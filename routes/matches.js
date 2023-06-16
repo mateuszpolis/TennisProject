@@ -19,6 +19,7 @@ router.get("/", async (req, res) => {
       .populate("player2")
       .populate("winner")
       .populate("tournament")
+      .populate("predictedWinner")
       .exec();
 
     let filteredMatches = [];
@@ -237,7 +238,6 @@ router.put("/:id", async (req, res) => {
     } else {
       match.predictedWinner = null;
     }
-    console.log(match.predictedWinner);
     await match.save();
     res.redirect(`/matches/${match.id}`);
   } catch {
@@ -335,13 +335,15 @@ async function calculateBiorythms(date, player1, player2) {
 
 function predictWinner(biorythms, odds) {
   player1Average =
-    (biorythms.physical1 + biorythms.emotional1 + biorythms.intelectual1) / 3;
+    (biorythms.physical1 + biorythms.emotional1 + biorythms.intelectual1 + 3) /
+    3;
   player2Average =
-    (biorythms.physical2 + biorythms.emotional2 + biorythms.intelectual2) / 3;
+    (biorythms.physical2 + biorythms.emotional2 + biorythms.intelectual2 + 3) /
+    3;
   player1Adjusted = player1Average / odds.odds1;
   player2Adjusted = player2Average / odds.odds2;
 
-  if (Math.abs(player1Adjusted - player2Adjusted) < 0.05) {
+  if (Math.abs(player1Adjusted - player2Adjusted) < 0.3) {
     return "tie";
   } else if (player1Adjusted > player2Adjusted) {
     return "player1";
@@ -381,7 +383,6 @@ async function updateAllMatches() {
     } else {
       match.predictedWinner = null;
     }
-    console.log(match.predictedWinner);
     await match.save();
   }
 }

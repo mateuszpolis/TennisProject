@@ -1,4 +1,44 @@
-<h2>Search stats</h2>
+<h2>SEARCH STATS</h2>
+<h3>From all matches:</h3>
+<form action="/stats" method="GET">
+  <p>
+    <label for="clay">Played on clay: </label>
+    <input type="checkbox" id="clay" name="clay" <%= params.surface.clay == true
+    ? 'checked' : '' %>>
+  </p>
+  <p>
+    <label for="hard">Played on hard: </label><input type="checkbox" id="hard"
+    name="hard" <%= params.surface.hard == true ? 'checked' : '' %>>
+  </p>
+  <p>
+    <label for="grass">Played on grass: </label><input type="checkbox"
+    id="grass" name="grass" <%= params.surface.grass == true ? 'checked' : ''
+    %>>
+  </p>
+  <p>
+    <label for="oddsDifferenceMin">Where minimum odds difference was:</label>
+    <input
+      type="number"
+      min="0"
+      step=".01"
+      name="oddsDifferenceMin"
+      value="<%= params.oddsDifferenceMin %>"
+    />
+  </p>
+  <p>
+    <label for="oddsDifferenceMax">Where maximum odds difference was:</label>
+    <input
+      type="number"
+      min="0"
+      step=".01"
+      name="oddsDifferenceMax"
+      value="<%= params.oddsDifferenceMax %>"
+    />
+  </p>
+  <input type="submit" value="Search" />
+</form>
+
+<h3>Select those, where winner has:</h3>
 <br />
 <p>All matches: <%= stats.allMatches %></p>
 <p>
