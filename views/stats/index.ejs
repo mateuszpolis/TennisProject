@@ -1,60 +1,84 @@
 <h2>SEARCH STATS</h2>
-<h3>From all matches:</h3>
+<h3>From (<%= matchesFromLength %>):</h3>
 <form action="/stats" method="GET">
-  <p>
-    <label for="clay">Played on clay: </label>
-    <input type="checkbox" id="clay" name="clay" <%= params.surface.clay == true
-    ? 'checked' : '' %>>
-  </p>
-  <p>
-    <label for="hard">Played on hard: </label><input type="checkbox" id="hard"
-    name="hard" <%= params.surface.hard == true ? 'checked' : '' %>>
-  </p>
-  <p>
-    <label for="grass">Played on grass: </label><input type="checkbox"
-    id="grass" name="grass" <%= params.surface.grass == true ? 'checked' : ''
-    %>>
-  </p>
-  <p>
-    <label for="oddsDifferenceMin">Where minimum odds difference was:</label>
-    <input
-      type="number"
-      min="0"
-      step=".01"
-      name="oddsDifferenceMin"
-      value="<%= params.oddsDifferenceMin %>"
-    />
-  </p>
-  <p>
-    <label for="oddsDifferenceMax">Where maximum odds difference was:</label>
-    <input
-      type="number"
-      min="0"
-      step=".01"
-      name="oddsDifferenceMax"
-      value="<%= params.oddsDifferenceMax %>"
-    />
-  </p>
-  <input type="submit" value="Search" />
+  <label for="clay">Played on clay: </label>
+  <input type="checkbox" id="clay" name="clay" <%= params.surface.clay == true ?
+  'checked' : '' %>>
+
+  <label for="hard">Played on hard: </label><input type="checkbox" id="hard"
+  name="hard" <%= params.surface.hard == true ? 'checked' : '' %>>
+
+  <label for="grass">Played on grass: </label><input type="checkbox" id="grass"
+  name="grass" <%= params.surface.grass == true ? 'checked' : '' %>>
+  <br />
+  <label for="oddsDifferenceMin">Minimum odds difference:</label>
+  <input
+    type="number"
+    min="0"
+    step=".01"
+    name="oddsDifferenceMin"
+    value="<%= params.oddsDifferenceMin %>"
+  />
+
+  <label for="oddsDifferenceMax">Maximum odds difference:</label>
+  <input
+    type="number"
+    min="0"
+    step=".01"
+    name="oddsDifferenceMax"
+    value="<%= params.oddsDifferenceMax %>"
+  />
+  <br />
+  <label for="tournamentRank">Tournament rank:</label>
+  <input
+    type="number"
+    min="250"
+    max="2000"
+    step="250"
+    name="tournamentRank"
+    value="<%= params.tournamentRank %>"
+  />
+  <br />
+  <label for="tournament">Tournament:</label>
+  <select name="tournament">
+    <option value="">All</option>
+    <% tournaments.forEach((tournament) => { %> 
+      <option value="<%= tournament.id %>" <%= params.tournament == tournament.id ? 'selected' : '' %>><%= tournament.name %></option>
+    <% }); %>
+  </select>
+
+  <h3>Select those, where the winner:</h3>
+
+  <label for="biorythmPhysical">Had better physical biorythm: </label>
+  <input type="checkbox" id="biorythmPhysical" name="biorythmPhysical" <%=
+  params.biorythmPhysical == true ? 'checked' : '' %>>
+
+  <label for="biorythmEmotional">Had better emotional biorythm: </label><input
+  type="checkbox" id="biorythmEmotional" name="biorythmEmotional" <%=
+  params.biorythmEmotional == true ? 'checked' : '' %>>
+
+  <label for="biorythmIntellectual">Had better intellectual biorythm: </label
+  ><input type="checkbox" id="biorythmIntellectual" name="biorythmIntellectual"
+  <%= params.biorythmIntellectual == true ? 'checked' : '' %>>
+  <br />
+  <label for="lowerOdds">Had lower odds:</label>
+  <input type="checkbox" id="lowerOdds" name="lowerOdds" <%= params.lowerOdds ==
+  true ? 'checked' : '' %> />
+
+  <label for="higherOdds">Had higher odds:</label>
+  <input type="checkbox" id="higherOdds" name="higherOdds" <%= params.higherOdds
+  == true ? 'checked' : '' %> />
+  <br />
+  <label for="prediction">Was the predicted winner: </label><input
+  type="checkbox" id="prediction" name="prediction" <%= params.prediction ==
+  true ? 'checked' : '' %>>
+  <br />
+  <input type="submit" value="Submit" />
 </form>
 
-<h3>Select those, where winner has:</h3>
-<br />
-<p>All matches: <%= stats.allMatches %></p>
-<p>
-  Matches where players with better physical biorythm win: <%=
-  stats.biorythmPhysical %>
-</p>
-<p>Percentage: <%= (stats.biorythmPhysical / stats.allMatches) * 100 %>%</p>
-<p>
-  Matches where players with better emotional biorythm win: <%=
-  stats.biorythmEmotional %>
-</p>
-<p>Percentage: <%= (stats.biorythmEmotional / stats.allMatches) * 100 %>%</p>
-<p>
-  Matches where players with better intellectual biorythm win: <%=
-  stats.biorythmIntellectual %>
-</p>
-<p>Percentage: <%= (stats.biorythmIntellectual / stats.allMatches) * 100 %>%</p>
-<p>Matches with predicted winner: <%= stats.predictions %></p>
-<p>Percentage: <%= (stats.correctPredictions / stats.predictions) * 100 %>%</p>
+<h1>Percentage of the results: <span style="font-size: 3rem;"> <%= percentage %>%</span></h1>
+
+<h2>Matches matching the filters (<%= matchesSelectedLength %>):</h2>
+<% filteredMatches.forEach(match => { %> 
+<%- include('../partials/showMatch', { match: match }) %> 
+<% }) %> 
